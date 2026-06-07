@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --black:#1E1E1E;
+    --taupe:#B6ACA1;
+    --pearl:#F8F6F3;
+    --mauve:#A87D9C;
+    --mauve-dim:#8a6480;
+    --mauve-dark:#6b4e63;
+    --platinum:#D9D9D9;
+    --muted:#7a706b;
+    --border:rgba(168,125,156,0.18);
+    --border-bright:rgba(168,125,156,0.45);
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--black);color:var(--taupe);font-weight:300;overflow-x:hidden}
+
+  nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(30,30,30,0.97);border-bottom:0.5px solid var(--border)}
+  .nav-logo{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:200;letter-spacing:0.2em;text-transform:uppercase;color:var(--mauve);text-decoration:none}
+  .nav-links{display:flex;gap:2.5rem;list-style:none}
+  .nav-links a{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover{color:var(--mauve)}
+
+  .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;border-bottom:0.5px solid var(--border)}
+  .hero-text{display:flex;flex-direction:column;justify-content:center;padding:6rem 3rem 5rem;position:relative}
+  .hero-text::before{content:'霧';position:absolute;right:2rem;top:50%;transform:translateY(-50%);font-family:'Noto Serif JP',serif;font-size:14rem;font-weight:200;color:rgba(168,125,156,0.05);line-height:1;pointer-events:none}
+  .hero-eyebrow{font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--mauve);margin-bottom:1.5rem}
+  .hero-name{font-family:'Noto Serif JP',serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:200;line-height:1.1;letter-spacing:0.04em;color:var(--pearl);margin-bottom:1.5rem}
+  .hero-name span{color:var(--mauve);display:block}
+  .hero-desc{font-size:0.88rem;color:var(--taupe);line-height:1.9;max-width:360px;margin-bottom:2.5rem}
+  .hero-cta{display:flex;gap:1rem;align-items:center}
+  .btn-mauve{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.85rem 2rem;background:var(--mauve);color:var(--pearl);border:none;cursor:pointer;text-decoration:none;display:inline-block;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:500;transition:background 0.2s}
+  .btn-mauve:hover{background:var(--mauve-dim)}
+  .btn-ghost{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s}
+  .btn-ghost:hover{color:var(--mauve)}
+  .btn-ghost::after{content:'→'}
+
+  .hero-image{position:relative;overflow:hidden;background:#181818;display:flex;align-items:center;justify-content:center;border-left:0.5px solid var(--border)}
+  .hero-img-placeholder{width:100%;height:100%;min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--muted);font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;background:#181818}
+  .kanji-deco{position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-family:'Noto Serif JP',serif;font-size:6rem;font-weight:200;color:rgba(168,125,156,0.08);line-height:1;writing-mode:vertical-rl;letter-spacing:0.2em}
+  .mist-deco{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,rgba(168,125,156,0.04),transparent);pointer-events:none}
+
+  .socials-strip{border-bottom:0.5px solid var(--border);padding:1rem 3rem;display:flex;gap:2rem;align-items:center;background:#181818;overflow-x:auto}
+  .social-label{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  .social-link{font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--platinum);text-decoration:none;white-space:nowrap;padding:0.25rem 0.85rem;border:0.5px solid var(--border);transition:border-color 0.2s,color 0.2s}
+  .social-link:hover{border-color:var(--mauve);color:var(--mauve)}
+
+  section{padding:6rem 3rem;border-bottom:0.5px solid var(--border)}
+  .section-header{display:flex;align-items:baseline;gap:1.5rem;margin-bottom:3rem;border-bottom:0.5px solid var(--border);padding-bottom:1rem}
+  .section-number{font-size:0.65rem;letter-spacing:0.25em;color:var(--mauve);text-transform:uppercase}
+  .section-title{font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:200;color:var(--pearl);letter-spacing:0.05em}
+
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+  .about-text p{font-size:0.88rem;line-height:2;color:var(--taupe);margin-bottom:1.25rem}
+  .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border)}
+  .stat-box{background:#181818;padding:2rem 1.5rem;text-align:center}
+  .stat-num{font-family:'Noto Serif JP',serif;font-size:3rem;font-weight:200;color:var(--mauve);line-height:1;display:block}
+  .stat-label{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.5rem;display:block}
+
+  #gallery{background:#181818}
+  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+  .gallery-item{aspect-ratio:3/4;position:relative;overflow:hidden;cursor:pointer}
+  .gallery-item:first-child{grid-row:span 2;aspect-ratio:auto}
+  .gallery-ph{width:100%;height:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:var(--muted);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;transition:transform 0.4s ease}
+  .gallery-item:nth-child(1) .gallery-ph{background:#1a1a1a}
+  .gallery-item:nth-child(2) .gallery-ph{background:#1c1c1c}
+  .gallery-item:nth-child(3) .gallery-ph{background:#1b1b1b}
+  .gallery-item:nth-child(4) .gallery-ph{background:#191919}
+  .gallery-item:nth-child(5) .gallery-ph{background:#1d1d1d}
+  .gallery-item:hover .gallery-ph{transform:scale(1.04)}
+  .gallery-overlay{position:absolute;inset:0;background:rgba(30,30,30,0);transition:background 0.3s;display:flex;align-items:flex-end;padding:1.25rem}
+  .gallery-item:hover .gallery-overlay{background:rgba(30,30,30,0.65)}
+  .gallery-caption{color:var(--mauve);font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;opacity:0;transform:translateY(8px);transition:all 0.3s}
+  .gallery-item:hover .gallery-caption{opacity:1;transform:none}
+
+  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+  .blog-card{border-top:1px solid var(--mauve-dark);padding-top:1.25rem}
+  .blog-date{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--mauve);margin-bottom:0.75rem;display:block}
+  .blog-title{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:200;line-height:1.4;margin-bottom:0.75rem;color:var(--pearl)}
+  .blog-excerpt{font-size:0.82rem;color:var(--taupe);line-height:1.85;margin-bottom:1.25rem}
+  .blog-read-more{font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--mauve);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:gap 0.2s}
+  .blog-read-more:hover{gap:0.65rem}
+  .blog-read-more::after{content:'→'}
+
+  #contact{background:#181818}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+  .contact-intro{font-family:'Noto Serif JP',serif;font-size:1.5rem;font-weight:200;font-style:italic;line-height:1.6;color:rgba(182,172,161,0.75);margin-bottom:2rem}
+  .contact-socials{display:flex;flex-direction:column;gap:0.6rem}
+  .contact-social-item{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.25rem;border:0.5px solid var(--border);text-decoration:none;color:var(--platinum);transition:border-color 0.2s,background 0.2s}
+  .contact-social-item:hover{border-color:var(--mauve);background:rgba(168,125,156,0.05)}
+  .social-name{font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase}
+  .social-handle{font-size:0.82rem;color:var(--muted);font-style:italic;font-family:'Noto Serif JP',serif}
+
+  .contact-form-side label{display:block;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;margin-top:1.25rem}
+  .contact-form-side input,
+  .contact-form-side textarea{width:100%;background:rgba(168,125,156,0.04);border:0.5px solid var(--border);color:var(--platinum);padding:0.85rem 1rem;font-family:'Zen Kaku Gothic New',sans-serif;font-size:0.88rem;font-weight:300;outline:none;transition:border-color 0.2s;resize:vertical}
+  .contact-form-side input:focus,
+  .contact-form-side textarea:focus{border-color:var(--mauve)}
+  .btn-send{margin-top:1.5rem;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.9rem 2.25rem;background:transparent;color:var(--mauve);border:0.5px solid var(--mauve);cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:400;transition:background 0.2s,color 0.2s}
+  .btn-send:hover{background:var(--mauve);color:var(--pearl)}
+
+  footer{padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;font-size:0.68rem;color:var(--muted);letter-spacing:0.1em;background:var(--black)}
+  .footer-kanji{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:200;color:rgba(168,125,156,0.25)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Zeno Coser</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Cosplay · Character Art · Community</p>
+    <h1 class="hero-name">Zeno<span>Coser</span></h1>
+    <p class="hero-desc">Bringing fictional worlds to life through handcrafted costumes, quiet mastery, and the beauty found in every character's story.</p>
+    <div class="hero-cta">
+      <a href="#gallery" class="btn-mauve">View gallery</a>
+      <a href="#contact" class="btn-ghost">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="hero-img-placeholder">
+      <div class="kanji-deco">霧 刃</div>
+      <div style="font-size:1.5rem;opacity:0.25;color:#A87D9C">◈</div>
+      <span>Your hero photo here</span>
+    </div>
+    <div class="mist-deco"></div>
+  </div>
+</section>
+
+<div class="socials-strip">
+  <span class="social-label">Follow along</span>
+  <a href="#" class="social-link">Instagram</a>
+  <a href="#" class="social-link">TikTok</a>
+  <a href="#" class="social-link">Twitter / X</a>
+  <a href="#" class="social-link">Facebook</a>
+  <a href="#" class="social-link">YouTube</a>
+</div>
+
+<section id="about" style="background:#1E1E1E">
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <h2 class="section-title">About me</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Hi, I'm Zeno — a passionate cosplayer who loves transforming into beloved characters from anime, games, and beyond. Every costume I create is a labor of love, from initial sketches all the way to the final reveal on the convention floor.</p>
+      <p>I specialize in handcrafted builds, intricate prop-making, and capturing the essence of each character through pose and expression. Cosplay, to me, is where fandom meets craftsmanship.</p>
+      <p>Based in the Philippines and active in the local and international cosplay community, I'm always working on my next character.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box"><span class="stat-num">50+</span><span class="stat-label">Costumes built</span></div>
+      <div class="stat-box"><span class="stat-num">8</span><span class="stat-label">Years cosplaying</span></div>
+      <div class="stat-box"><span class="stat-num">30+</span><span class="stat-label">Conventions</span></div>
+      <div class="stat-box"><span class="stat-num">12k+</span><span class="stat-label">Followers</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2 class="section-title">Gallery</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <div class="gallery-ph"><span style="font-size:1.2rem;opacity:0.25;color:#A87D9C">◈</span><span>Featured cosplay</span></div>
+      <div class="gallery-overlay"><span class="gallery-caption">Character name · Series</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-ph"><span>Photo 2</span></div>
+      <div class="gallery-overlay"><span class="gallery-caption">Character name</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-ph"><span>Photo 3</span></div>
+      <div class="gallery-overlay"><span class="gallery-caption">Character name</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-ph"><span>Photo 4</span></div>
+      <div class="gallery-overlay"><span class="gallery-caption">Character name</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-ph"><span>Photo 5</span></div>
+      <div class="gallery-overlay"><span class="gallery-caption">Character name</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="blog" style="background:#1E1E1E">
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <h2 class="section-title">Blog</h2>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <span class="blog-date">June 2026</span>
+      <h3 class="blog-title">How I built my most ambitious armor yet</h3>
+      <p class="blog-excerpt">A full breakdown of materials, techniques, and the happy accidents that made this build my favorite so far.</p>
+      <a href="#" class="blog-read-more">Read more</a>
+    </div>
+    <div class="blog-card">
+      <span class="blog-date">May 2026</span>
+      <h3 class="blog-title">Convention survival guide for cosplayers</h3>
+      <p class="blog-excerpt">From packing your emergency kit to managing a heavy costume all day — what I've learned after 30+ cons.</p>
+      <a href="#" class="blog-read-more">Read more</a>
+    </div>
+    <div class="blog-card">
+      <span class="blog-date">April 2026</span>
+      <h3 class="blog-title">My favorite local Filipino cosplay events</h3>
+      <p class="blog-excerpt">The Philippine cosplay scene is thriving. Here are the events I never miss and what makes each one special.</p>
+      <a href="#" class="blog-read-more">Read more</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <h2 class="section-title">Get in touch</h2>
+  </div>
+  <div class="contact-grid">
+    <div>
+      <p class="contact-intro">"Let's collaborate, connect, or just talk about our favorite characters."</p>
+      <div class="contact-socials">
+        <a href="#" class="contact-social-item"><span class="social-name">Instagram</span><span class="social-handle">@zenocoser</span></a>
+        <a href="#" class="contact-social-item"><span class="social-name">TikTok</span><span class="social-handle">@zenocoser</span></a>
+        <a href="#" class="contact-social-item"><span class="social-name">Twitter / X</span><span class="social-handle">@zenocoser</span></a>
+        <a href="#" class="contact-social-item"><span class="social-name">YouTube</span><span class="social-handle">Zeno Coser</span></a>
+      </div>
+    </div>
+    <div class="contact-form-side">
+      <label for="name">Your name</label>
+      <input type="text" id="name" placeholder="e.g. Your Name"/>
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="you@example.com"/>
+      <label for="message">Message</label>
+      <textarea id="message" rows="5" placeholder="Say hi, ask about collabs, or just chat..."></textarea>
+      <button class="btn-send">Send message</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Zeno Coser</span>
+  <span class="footer-kanji">霧</span>
+  <span>Cosplayer · Creator · Philippines</span>
+</footer>
+
+</body>
+</html>

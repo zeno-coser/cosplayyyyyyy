@@ -243,12 +243,7 @@
       <p>I specialize in handcrafted builds, intricate prop-making, and capturing the essence of each character through pose and expression. Cosplay, to me, is where fandom meets craftsmanship.</p>
       <p>Based in the Philippines and active in the local and international cosplay community, I'm always working on my next character.</p>
     </div>
-    <div class="about-stats">
-      <div class="stat-box"><span class="stat-num">50+</span><span class="stat-label">Costumes built</span></div>
-      <div class="stat-box"><span class="stat-num">8</span><span class="stat-label">Years cosplaying</span></div>
-      <div class="stat-box"><span class="stat-num">30+</span><span class="stat-label">Conventions</span></div>
-      <div class="stat-box"><span class="stat-num">12k+</span><span class="stat-label">Followers</span></div>
-    </div>
+
   </div>
 </section>
 
@@ -321,28 +316,27 @@
       <input id="cmtName" type="text" placeholder="Your name" style="flex:1;background:rgba(45,140,255,0.04);border:0.5px solid var(--border);color:var(--gray);padding:0.75rem 1rem;font-family:'Zen Kaku Gothic New',sans-serif;font-size:0.85rem;font-weight:300;outline:none"/>
     </div>
     <textarea id="cmtText" rows="3" placeholder="Say something nice... 💙" style="width:100%;background:rgba(45,140,255,0.04);border:0.5px solid var(--border);color:var(--gray);padding:0.75rem 1rem;font-family:'Zen Kaku Gothic New',sans-serif;font-size:0.85rem;font-weight:300;outline:none;resize:vertical;margin-bottom:0.75rem"></textarea>
-    <button onclick="postComment()" style="font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.8rem 2rem;background:linear-gradient(90deg,var(--blue),var(--pink));color:#fff;border:none;cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:500">Post comment</button>
+    <button id="postBtn" onclick="postComment()" style="font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.8rem 2rem;background:linear-gradient(90deg,var(--blue),var(--pink));color:#fff;border:none;cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:500">Post comment</button>
   </div>
 
   <!-- COMMENTS LIST -->
-  <div id="commentsList" style="max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:1rem"></div>
+  <div id="commentsList" style="max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem"></div>
 </section>
 
 <script>
-(function(){
-  const stored = JSON.parse(localStorage.getItem('zenoComments') || '[]');
-  stored.forEach(c => renderComment(c));
-})();
+// In-memory comment store
+const comments = [];
 
 function postComment(){
   const name = document.getElementById('cmtName').value.trim();
   const text = document.getElementById('cmtText').value.trim();
   if(!name || !text) return;
-  const c = { name, text, date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) };
-  const all = JSON.parse(localStorage.getItem('zenoComments') || '[]');
-  all.push(c);
-  localStorage.setItem('zenoComments', JSON.stringify(all));
+
+  const date = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const c = { name, text, date };
+  comments.push(c);
   renderComment(c);
+
   document.getElementById('cmtName').value = '';
   document.getElementById('cmtText').value = '';
 }
@@ -350,12 +344,12 @@ function postComment(){
 function renderComment(c){
   const el = document.createElement('div');
   el.style.cssText = 'padding:1.25rem 1.5rem;border:0.5px solid rgba(45,140,255,0.15);background:#1e1e1e;position:relative';
-  el.innerHTML = \`<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.5rem">
-    <span style="font-size:0.75rem;letter-spacing:0.1em;color:#fff;font-weight:500">\${c.name}</span>
-    <span style="font-size:0.62rem;letter-spacing:0.12em;color:var(--muted)">\${c.date}</span>
+  el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.5rem">
+    <span style="font-size:0.75rem;letter-spacing:0.1em;color:#fff;font-weight:500">${c.name}</span>
+    <span style="font-size:0.62rem;letter-spacing:0.12em;color:var(--muted)">${c.date}</span>
   </div>
-  <p style="font-size:0.85rem;color:var(--muted);line-height:1.8">\${c.text}</p>
-  <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--blue),var(--pink));opacity:0.3"></div>\`;
+  <p style="font-size:0.85rem;color:var(--muted);line-height:1.8">${c.text}</p>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--blue),var(--pink));opacity:0.3"></div>`;
   document.getElementById('commentsList').prepend(el);
 }
 </script>
